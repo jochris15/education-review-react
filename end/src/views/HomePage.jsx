@@ -1,60 +1,36 @@
 import Card from "../components/Card";
-import axios from 'axios';
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import gearLoad from "../components/assets/Gear-0.2s-264px.svg"
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default function HomePage({ url }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState('')
 
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.access_token}` }
-    }
-
     async function fetchProducts() {
         try {
-            setLoading(true)
-            const { data } = await axios.get(`${url}/apis/pub/branded-things/products?q=${search}&limit=8&page=1&sort=ASC`);
-            setProducts(data.data.query);
-            console.log(data.data.query);
+            const { data } = await axios(`${url}/apis/pub/branded-things/products?q=${search}&limit=8&page=1&sort=ASC`)
+
+            setProducts(data.data.query)
         } catch (error) {
-            console.log(error);
             Swal.fire({
-                icon: "error",
                 title: error.response.data.error,
+                icon: "error"
             });
-        } finally {
-            setLoading(false)
         }
     }
 
-    async function handleDelete(id) {
-        try {
-            await axios.delete(`${url}/apis/branded-things/products/${id}`, config)
-            Swal.fire({
-                icon: "success",
-                title: "Delete success"
-            });
-            fetchProducts()
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: error.response.data.error
-            });
-        }
-    }
+    useEffect(() => {
+        fetchProducts()
+    }, [search])
 
     // search
     function searchOnChange(event) {
         let newSearch = event.target.value;
         setSearch(newSearch);
     }
-
-    useEffect(() => {
-        fetchProducts();
-    }, [search])
 
     return (
         <>
@@ -78,7 +54,7 @@ export default function HomePage({ url }) {
                 ) : (
                     <main className="grid grid-cols-2 gap-5 px-10 my-8 bg-white">
                         {products.map(product => {
-                            return <Card key={product.id} product={product} handleDelete={handleDelete} />
+                            return <Card key={product.id} product={product} url={url} fetchProducts={fetchProducts} />
                         })}
                     </main>
                 )}

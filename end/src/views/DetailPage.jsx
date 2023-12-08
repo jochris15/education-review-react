@@ -1,31 +1,29 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import axios from 'axios';
-import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import gearLoad from "../components/assets/Gear-0.2s-264px.svg"
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default function Details({ url }) {
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false)
-    let { id } = useParams();
+    const { id } = useParams()
 
     async function fetchProduct() {
         try {
-            setLoading(true)
-            const { data } = await axios.get(`${url}/apis/pub/branded-things/products/${id}`);
-            setProduct(data.data);
-            setLoading(false)
+            const { data } = await axios.get(`${url}/apis/pub/branded-things/products/${id}`)
+
+            setProduct(data.data)
         } catch (error) {
             Swal.fire({
-                icon: "error",
-                title: error.response.data.error
+                title: error.response.data.error,
+                icon: "error"
             });
         }
     }
 
     useEffect(() => {
-        fetchProduct();
+        fetchProduct()
     }, [])
 
     return (
@@ -59,7 +57,6 @@ export default function Details({ url }) {
                         </div>
                     </div>
                 )}
-
             </main>
         </>
     )

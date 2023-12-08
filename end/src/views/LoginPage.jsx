@@ -1,12 +1,28 @@
-import Swal from "sweetalert2";
-import axios from 'axios';
 import { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 export default function LoginPage({ url }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
+
+    async function handleLogin(e) {
+        e.preventDefault()
+        try {
+            const addedData = { email, password }
+            const { data } = await axios.post(`${url}/apis/login`, addedData)
+
+            localStorage.setItem("access_token", data.data.access_token)
+            navigate('/')
+        } catch (error) {
+            Swal.fire({
+                title: error.response.data.error,
+                icon: "error"
+            });
+        }
+    }
 
     function emailOnChange(event) {
         setEmail(event.target.value);
@@ -14,20 +30,6 @@ export default function LoginPage({ url }) {
 
     function passwordOnChange(event) {
         setPassword(event.target.value);
-    }
-
-    async function handleLogin(event) {
-        event.preventDefault();
-        try {
-            let { data } = await axios.post(`${url}/apis/login`, { email, password });
-            localStorage.setItem("access_token", data.data.access_token);
-            navigate('/')
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: error.response.data.error
-            })
-        }
     }
 
     return (
@@ -38,7 +40,7 @@ export default function LoginPage({ url }) {
                         Log In
                     </h1>
 
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleLogin}>
                         <div>
                             <label className="label">
                                 <span className="text-base label-text">Email</span>
@@ -62,7 +64,7 @@ export default function LoginPage({ url }) {
                             />
                         </div>
                         <div>
-                            <button onClick={handleLogin} className="btn btn-accent">Log In</button>
+                            <button type="submit" className="btn btn-accent">Log In</button>
                         </div>
                     </form>
                 </div>
