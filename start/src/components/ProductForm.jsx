@@ -1,8 +1,16 @@
 import { useState } from "react";
 
-export default function ProductsForm({ setName, setDescription, setPrice, setImgUrl, setStock, setCategoryId, categories }) {
+export default function ProductsForm() {
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
+    const [price, setPrice] = useState(0)
+    const [imgUrl, setImgUrl] = useState("")
+    const [stock, setStock] = useState(0)
+    const [categoryId, setCategoryId] = useState("")
+    const [categories, setCategories] = useState([]);
+
     return (<>
-        <form className=" grid grid-cols-2 gap-4">
+        <form className=" grid grid-cols-2 gap-4 mt-4" >
             <div>
                 <label className="label">
                     <span className="text-base label-text">Name</span>
@@ -12,6 +20,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                     type="text"
                     placeholder="Name"
                     className="w-full input input-bordered input-primary"
+                    value={name}
                 />
             </div>
             <div>
@@ -23,6 +32,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                     type="text"
                     placeholder="Enter Description"
                     className="w-full input input-bordered input-primary"
+                    value={description}
                 />
             </div>
             <div>
@@ -34,6 +44,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                     type="number"
                     placeholder="Enter Price"
                     className="w-full input input-bordered input-primary"
+                    value={price}
                 />
             </div>
             <div>
@@ -45,6 +56,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                     type="number"
                     placeholder="Enter Stock"
                     className="w-full input input-bordered input-primary"
+                    value={stock}
                 />
             </div>
             <div>
@@ -56,6 +68,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                     type="text"
                     placeholder="Image URL"
                     className="w-full input input-bordered input-primary"
+                    value={imgUrl}
                 />
             </div>
             <div>
@@ -74,7 +87,7 @@ export default function ProductsForm({ setName, setDescription, setPrice, setImg
                 </select>
             </div>
             <div>
-                <button type="submit" className="w-full btn btn-accent">Save</button>
+                <button type="submit" className="w-full btn btn-accent">Add</button>
             </div>
         </form>
     </>)
