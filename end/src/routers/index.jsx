@@ -5,7 +5,7 @@ import HomePage from '../views/HomePage'
 import DetailPage from '../views/DetailPage'
 import AddPage from '../views/AddPage'
 import EditPage from '../views/EditPage'
-import Swal from 'sweetalert2'
+import Toastify from 'toastify-js'
 
 const url = 'https://phase2-aio.vercel.app'
 
@@ -15,10 +15,21 @@ const router = createBrowserRouter([
         element: <LoginPage url={url} />,
         loader: () => {
             if (localStorage.access_token) {
-                Swal.fire({
-                    title: 'Ngapain cuk?????',
-                    icon: 'question'
-                });
+                Toastify({
+                    text: "You already logged in",
+                    duration: 2000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "left",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#EF4C54",
+                        color: "#17202A",
+                        boxShadow: "0 5px 10px black",
+                        fontWeight: "bold"
+                    }
+                }).showToast();
                 return redirect('/')
             }
 
@@ -29,10 +40,21 @@ const router = createBrowserRouter([
         element: <BaseLayout />,
         loader: () => {
             if (!localStorage.access_token) {
-                Swal.fire({
-                    title: 'login cuk!!',
-                    icon: 'warning'
-                });
+                Toastify({
+                    text: "Please login first",
+                    duration: 2000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "left",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#EF4C54",
+                        color: "#17202A",
+                        boxShadow: "0 5px 10px black",
+                        fontWeight: "bold"
+                    }
+                }).showToast();
                 return redirect('/login')
             }
 

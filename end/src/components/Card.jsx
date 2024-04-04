@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import Toastify from 'toastify-js'
 
 export default function Card({ product, url, fetchProducts }) {
     const navigate = useNavigate()
@@ -12,18 +12,39 @@ export default function Card({ product, url, fetchProducts }) {
                     Authorization: `Bearer ${localStorage.access_token}`
                 }
             })
-
-            Swal.fire({
-                title: 'Delete success',
-                icon: "success"
-            });
+            Toastify({
+                text: "Success delete",
+                duration: 2000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "left",
+                stopOnFocus: true,
+                style: {
+                    background: "#00B29F",
+                    color: "#17202A",
+                    boxShadow: "0 5px 10px black",
+                    fontWeight: "bold"
+                }
+            }).showToast();
 
             fetchProducts()
         } catch (error) {
-            Swal.fire({
-                title: error.response.data.error,
-                icon: "error"
-            });
+            Toastify({
+                text: error.response.data.error,
+                duration: 2000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "left",
+                stopOnFocus: true,
+                style: {
+                    background: "#EF4C54",
+                    color: "#17202A",
+                    boxShadow: "0 5px 10px black",
+                    fontWeight: "bold"
+                }
+            }).showToast();
         }
     }
 

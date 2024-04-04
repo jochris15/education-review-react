@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import Toastify from 'toastify-js'
 
 export default function Details({ url }) {
     const [product, setProduct] = useState([]);
@@ -15,10 +15,21 @@ export default function Details({ url }) {
 
             setProduct(data.data)
         } catch (error) {
-            Swal.fire({
-                title: error.response.data.error,
-                icon: "error"
-            });
+            Toastify({
+                text: error.response.data.error,
+                duration: 2000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "left",
+                stopOnFocus: true,
+                style: {
+                    background: "#EF4C54",
+                    color: "#17202A",
+                    boxShadow: "0 5px 10px black",
+                    fontWeight: "bold"
+                }
+            }).showToast();
         }
     }
 

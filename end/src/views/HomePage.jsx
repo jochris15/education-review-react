@@ -2,7 +2,7 @@ import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import gearLoad from "../components/assets/Gear-0.2s-264px.svg"
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import Toastify from 'toastify-js'
 
 export default function HomePage({ url }) {
     const [products, setProducts] = useState([]);
@@ -15,10 +15,21 @@ export default function HomePage({ url }) {
 
             setProducts(data.data.query)
         } catch (error) {
-            Swal.fire({
-                title: error.response.data.error,
-                icon: "error"
-            });
+            Toastify({
+                text: error.response.data.error,
+                duration: 2000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "left",
+                stopOnFocus: true,
+                style: {
+                    background: "#EF4C54",
+                    color: "#17202A",
+                    boxShadow: "0 5px 10px black",
+                    fontWeight: "bold"
+                }
+            }).showToast();
         }
     }
 
