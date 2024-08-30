@@ -15,3 +15,14 @@ npm run dev
 <br>
 
 [Dokumentasi setup router](https://reactrouter.com/en/main/start/tutorial)
+
+## Features
+- Login
+- Logout
+- Fetch Products @ HomePage
+- Add Product
+- Fetch Detail Product @ DetailPage
+- Delete Product
+- Edit Product
+- Patch Image 
+- Pagination
