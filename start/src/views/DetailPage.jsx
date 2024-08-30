@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import gearLoad from "../components/assets/Gear-0.2s-264px.svg"
 
 export default function Details() {
     const [product, setProduct] = useState([]);
@@ -18,20 +18,18 @@ export default function Details() {
                             src={product.imgUrl}
                             className="max-w-sm rounded-lg shadow mb-5"
                         />
-                        <div className="flex-col">
-                            <div>
-                                <div className="texts">
-                                    <h1 className="text-5xl font-bold text-accent-focus">{product.name}</h1>
-                                    <div className="py-6">
-                                        <p>{product.description}</p>
-                                        <br></br>
-                                        <p>Stock: {product.stock}</p>
-                                        <p>Price: {product.price}</p>
-                                    </div>
+                        <div>
+                            <div className="texts">
+                                <h1 className="text-5xl font-bold text-accent-focus">{product.name}</h1>
+                                <div className="py-6">
+                                    <p>{product.description}</p>
+                                    <br></br>
+                                    <p>Stock: {product.stock}</p>
+                                    <p>Price: {product.price}</p>
                                 </div>
-                                <div className="buttons">
-                                    <Link to="/"><button className="btn btn-accent">Back</button></Link>
-                                </div>
+                            </div>
+                            <div className="buttons">
+                                <a className="btn btn-accent">Back</a>
                             </div>
                         </div>
                     </div>

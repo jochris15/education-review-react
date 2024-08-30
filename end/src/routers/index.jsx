@@ -1,59 +1,55 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import LoginPage from '../views/LoginPage'
-import BaseLayout from '../views/BaseLayout'
 import HomePage from '../views/HomePage'
 import DetailPage from '../views/DetailPage'
 import AddPage from '../views/AddPage'
-import EditPage from '../views/EditPage'
+import BaseLayout from '../views/BaseLayout'
+import EditPage from "../views/EditPage";
 import Toastify from 'toastify-js'
 
-const url = 'https://phase2-aio.vercel.app'
+const base_url = 'https://h8-phase2-gc.vercel.app'
 
 const router = createBrowserRouter([
     {
         path: "/login",
-        element: <LoginPage url={url} />,
+        element: <LoginPage base_url={base_url} />,
         loader: () => {
-            if (localStorage.access_token) {
+            if (localStorage.token) {
                 Toastify({
-                    text: "You already logged in",
-                    duration: 2000,
+                    text: "Already logged in",
+                    duration: 3000,
                     newWindow: true,
                     close: true,
-                    gravity: "top",
-                    position: "left",
-                    stopOnFocus: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
                     style: {
-                        background: "#EF4C54",
-                        color: "#17202A",
-                        boxShadow: "0 5px 10px black",
-                        fontWeight: "bold"
-                    }
+                        background: "#FF0000",
+                    },
+                    onClick: function () { } // Callback after click
                 }).showToast();
                 return redirect('/')
             }
 
             return null
-        },
+        }
     },
     {
         element: <BaseLayout />,
         loader: () => {
-            if (!localStorage.access_token) {
+            if (!localStorage.token) {
                 Toastify({
                     text: "Please login first",
-                    duration: 2000,
+                    duration: 3000,
                     newWindow: true,
                     close: true,
-                    gravity: "top",
-                    position: "left",
-                    stopOnFocus: true,
+                    gravity: "bottom", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
                     style: {
-                        background: "#EF4C54",
-                        color: "#17202A",
-                        boxShadow: "0 5px 10px black",
-                        fontWeight: "bold"
-                    }
+                        background: "#FF0000",
+                    },
+                    onClick: function () { } // Callback after click
                 }).showToast();
                 return redirect('/login')
             }
@@ -63,22 +59,22 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <HomePage url={url} />
-            },
-            {
-                path: "/detail/:id",
-                element: <DetailPage url={url} />
+                element: <HomePage base_url={base_url} />
             },
             {
                 path: "/add",
-                element: <AddPage url={url} />
+                element: <AddPage base_url={base_url} />
+            },
+            {
+                path: "/detail/:id",
+                element: <DetailPage base_url={base_url} />
             },
             {
                 path: "/edit/:id",
-                element: <EditPage url={url} />
-            },
+                element: <EditPage base_url={base_url} />
+            }
         ]
     }
-]);
+])
 
 export default router

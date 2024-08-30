@@ -4,7 +4,6 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
     function emailOnChange(event) {
         setEmail(event.target.value);
     }
@@ -31,6 +30,7 @@ export default function LoginPage() {
                                 placeholder="Enter Email"
                                 className="w-full input input-bordered input-accent"
                                 onChange={emailOnChange}
+                                autoComplete='current-email'
                             />
                         </div>
                         <div>
@@ -42,10 +42,11 @@ export default function LoginPage() {
                                 placeholder="Enter Password"
                                 className="w-full input input-bordered input-accent"
                                 onChange={passwordOnChange}
+                                autoComplete='current-password'
                             />
                         </div>
                         <div>
-                            <button className="btn btn-accent">Log In</button>
+                            <button className="btn btn-accent w-full mt-5">Log In</button>
                         </div>
                     </form>
                 </div>

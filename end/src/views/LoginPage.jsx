@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 import Toastify from 'toastify-js'
-import { useNavigate } from 'react-router-dom'
 
-export default function LoginPage({ url }) {
+export default function LoginPage({ base_url }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
@@ -11,43 +11,24 @@ export default function LoginPage({ url }) {
     async function handleLogin(e) {
         e.preventDefault()
         try {
-            const addedData = { email, password }
-            const { data } = await axios.post(`${url}/apis/login`, addedData)
-
-            localStorage.setItem("access_token", data.data.access_token)
-
-            Toastify({
-                text: "Success Login",
-                duration: 2000,
-                newWindow: true,
-                close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
-                style: {
-                    background: "#00B29F",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
-            }).showToast();
-
-            navigate('/')
+            const { data } = await axios.post(`${base_url}/apis/login`, { email, password })
+            localStorage.setItem("token", data.data.access_token);
+            navigate("/");
         } catch (error) {
+            console.log(error);
+
             Toastify({
                 text: error.response.data.error,
-                duration: 2000,
+                duration: 3000,
                 newWindow: true,
                 close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#EF4C54",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
+                    background: "#FF0000",
+                },
+                onClick: function () { } // Callback after click
             }).showToast();
         }
     }
@@ -78,6 +59,7 @@ export default function LoginPage({ url }) {
                                 placeholder="Enter Email"
                                 className="w-full input input-bordered input-accent"
                                 onChange={emailOnChange}
+                                autoComplete='current-email'
                             />
                         </div>
                         <div>
@@ -89,10 +71,11 @@ export default function LoginPage({ url }) {
                                 placeholder="Enter Password"
                                 className="w-full input input-bordered input-accent"
                                 onChange={passwordOnChange}
+                                autoComplete='current-password'
                             />
                         </div>
                         <div>
-                            <button type="submit" className="btn btn-accent">Log In</button>
+                            <button className="btn btn-accent w-full mt-5">Log In</button>
                         </div>
                     </form>
                 </div>

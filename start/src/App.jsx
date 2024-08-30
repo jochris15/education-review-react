@@ -1,9 +1,9 @@
-import './App.css'
-
 export default function App() {
     return (
         <>
-            <h1>Hello World</h1>
+            <div className='p-5'>
+                Ini home hehe
+            </div>
         </>
     )
 }

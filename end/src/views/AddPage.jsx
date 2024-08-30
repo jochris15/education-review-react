@@ -1,60 +1,57 @@
 import ProductForm from "../components/ProductForm";
-import axios from 'axios'
 import Toastify from 'toastify-js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
-export default function ProductsForm({ url }) {
+export default function AddPage({ base_url }) {
     const navigate = useNavigate()
+
     async function handleSubmit(e, name, description, price, imgUrl, stock, categoryId) {
         e.preventDefault()
         try {
-            const dataAdded = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
+            const body = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
 
-            const { data } = await axios.post(`${url}/apis/branded-things/products`, dataAdded, {
+            const { data } = await axios.post(`${base_url}/apis/branded-things/products`, body, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
+                    Authorization: `Bearer ${localStorage.token}`
                 }
             })
-
+            navigate("/")
             Toastify({
-                text: "Success add new data",
-                duration: 2000,
+                text: `Succedd add new product ${data.data.name}`,
+                duration: 3000,
                 newWindow: true,
                 close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#00B29F",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
+                    background: "#008000",
+                },
+                onClick: function () { } // Callback after click
             }).showToast();
-
-            navigate('/')
         } catch (error) {
             Toastify({
                 text: error.response.data.error,
-                duration: 2000,
+                duration: 3000,
                 newWindow: true,
                 close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#EF4C54",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
+                    background: "#FF0000",
+                },
+                onClick: function () { } // Callback after click
             }).showToast();
+
         }
     }
 
     return (
         <>
-            <ProductForm url={url} handleSubmit={handleSubmit} nameProp="Add Product" />
+            <ProductForm base_url={base_url} handleSubmit={handleSubmit}
+                nameProp="Add Product" />
         </>
     )
 }

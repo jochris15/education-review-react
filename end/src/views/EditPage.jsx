@@ -1,35 +1,64 @@
+import { useEffect, useState } from "react";
 import ProductForm from "../components/ProductForm";
 import axios from 'axios'
+import { useParams } from "react-router-dom";
 import Toastify from 'toastify-js'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function ProductsForm({ url }) {
-    const [product, setProduct] = useState([]);
-    const navigate = useNavigate()
+export default function EditPage({ base_url }) {
+    const [product, setProduct] = useState({})
     const { id } = useParams()
+    const navigate = useNavigate()
 
-    async function fetchProduct() {
+    async function handleSubmit(e, name, description, price, imgUrl, stock, categoryId) {
+        e.preventDefault()
         try {
-            const { data } = await axios.get(`${url}/apis/pub/branded-things/products/${id}`)
+            const body = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
 
-            setProduct(data.data)
+            const { data } = await axios.put(`${base_url}/apis/branded-things/products/${id}`, body, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.token}`
+                }
+            })
+            navigate("/")
+            Toastify({
+                text: `Succedd edit product`,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#008000",
+                },
+                onClick: function () { } // Callback after click
+            }).showToast();
         } catch (error) {
             Toastify({
                 text: error.response.data.error,
-                duration: 2000,
+                duration: 3000,
                 newWindow: true,
                 close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#EF4C54",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
+                    background: "#FF0000",
+                },
+                onClick: function () { } // Callback after click
             }).showToast();
+
+        }
+    }
+
+    async function fetchProduct() {
+        try {
+            const { data } = await axios.get(`${base_url}/apis/pub/branded-things/products/${id}`)
+
+            setProduct(data.data)
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -37,56 +66,10 @@ export default function ProductsForm({ url }) {
         fetchProduct()
     }, [])
 
-    async function handleSubmit(e, name, description, price, imgUrl, stock, categoryId) {
-        e.preventDefault()
-        try {
-            const dataAdded = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
-
-            await axios.put(`${url}/apis/branded-things/products/${id}`, dataAdded, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
-                }
-            })
-
-            Toastify({
-                text: "Success edit product",
-                duration: 2000,
-                newWindow: true,
-                close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
-                style: {
-                    background: "#00B29F",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
-            }).showToast();
-
-            navigate('/')
-        } catch (error) {
-            Toastify({
-                text: error.response.data.error,
-                duration: 2000,
-                newWindow: true,
-                close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
-                style: {
-                    background: "#EF4C54",
-                    color: "#17202A",
-                    boxShadow: "0 5px 10px black",
-                    fontWeight: "bold"
-                }
-            }).showToast();
-        }
-    }
-
     return (
         <>
-            <ProductForm url={url} handleSubmit={handleSubmit} product={product} nameProp="Edit Product" />
+            <ProductForm base_url={base_url} product={product} handleSubmit={handleSubmit}
+                nameProp="Edit Product" />
         </>
     )
 }
