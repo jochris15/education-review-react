@@ -17,7 +17,7 @@ export default function EditPage({ base_url }) {
 
             const { data } = await axios.put(`${base_url}/apis/branded-things/products/${id}`, body, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.token}`
+                    Authorization: `Bearer ${localStorage.access_token}`
                 }
             })
             navigate("/")

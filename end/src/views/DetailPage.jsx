@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
-import gearLoad from "../components/assets/Gear-0.2s-264px.svg"
+import gifLoading from '../components/assets/loading.svg'
 
 export default function Details({ base_url }) {
     const [product, setProduct] = useState([]);
@@ -27,34 +27,36 @@ export default function Details({ base_url }) {
 
     return (
         <>
-            <main className="px-10 my-8">
-                {loading ? (
-                    <div className="mt-32 flex justify-center items-center">
-                        <img src={gearLoad} />
+            {loading ? (
+                <>
+                    <div className="flex justify-center mt-32">
+                        <img src={gifLoading} className="w-1/5" />
                     </div>
-                ) : (
-                    <div className="flex flex-col bg-base-100 my-6 items-center p-20  bg-gray-100 shadow">
-                        <img
-                            src={product.imgUrl}
-                            className="max-w-sm rounded-lg shadow mb-5"
-                        />
+                </>
+            ) : (
+                <>
+                    <div className="flex flex-start bg-yellow-400 border-2 border-black p-5 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full mt-10">
                         <div>
-                            <div className="texts">
-                                <h1 className="text-5xl font-bold text-accent-focus">{product.name}</h1>
-                                <div className="py-6">
-                                    <p>{product.description}</p>
-                                    <br></br>
-                                    <p>Stock: {product.stock}</p>
-                                    <p>Price: {product.price}</p>
-                                </div>
-                            </div>
-                            <div className="buttons">
-                                <Link to="/" className="btn btn-accent">Back</Link>
+                            <img
+                                src={product.imgUrl}
+                                alt="product image"
+                                className="border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full"
+                            />
+                        </div>
+                        <div className="flex mx-10 flex-col w-1/2 justify-between">
+                            <b className="text-4xl mb-5">
+                                {product.name}
+                            </b>
+                            <p className="h-full">
+                                {product.description}
+                            </p>
+                            <div>
+                                <Link to="/" className="fa-solid fa-arrow-left fa-2xl mb-5" >Back</Link>
                             </div>
                         </div>
                     </div>
-                )}
-            </main>
+                </>
+            )}
         </>
     )
 }

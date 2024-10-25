@@ -14,9 +14,9 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage base_url={base_url} />,
         loader: () => {
-            if (localStorage.token) {
+            if (localStorage.access_token) {
                 Toastify({
-                    text: "Already logged in",
+                    text: "You already logged in",
                     duration: 3000,
                     newWindow: true,
                     close: true,
@@ -24,9 +24,12 @@ const router = createBrowserRouter([
                     position: "right", // `left`, `center` or `right`
                     stopOnFocus: true, // Prevents dismissing of toast on hover
                     style: {
-                        background: "#FF0000",
+                        background: "#F87171",
+                        color: "black",
+                        border: "solid #000000",
+                        borderRadius: "8px",
+                        boxShadow: "2px 2px black"
                     },
-                    onClick: function () { } // Callback after click
                 }).showToast();
                 return redirect('/')
             }
@@ -37,7 +40,7 @@ const router = createBrowserRouter([
     {
         element: <BaseLayout />,
         loader: () => {
-            if (!localStorage.token) {
+            if (!localStorage.access_token) {
                 Toastify({
                     text: "Please login first",
                     duration: 3000,
@@ -47,9 +50,12 @@ const router = createBrowserRouter([
                     position: "right", // `left`, `center` or `right`
                     stopOnFocus: true, // Prevents dismissing of toast on hover
                     style: {
-                        background: "#FF0000",
+                        background: "#F87171",
+                        color: "black",
+                        border: "solid #000000",
+                        borderRadius: "8px",
+                        boxShadow: "2px 2px black"
                     },
-                    onClick: function () { } // Callback after click
                 }).showToast();
                 return redirect('/login')
             }

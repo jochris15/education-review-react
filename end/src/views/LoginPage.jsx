@@ -2,6 +2,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import Toastify from 'toastify-js'
+import Button from '../components/Button'
 
 export default function LoginPage({ base_url }) {
     const [email, setEmail] = useState("");
@@ -12,11 +13,25 @@ export default function LoginPage({ base_url }) {
         e.preventDefault()
         try {
             const { data } = await axios.post(`${base_url}/apis/login`, { email, password })
-            localStorage.setItem("token", data.data.access_token);
+            localStorage.setItem("access_token", data.data.access_token);
             navigate("/");
+            Toastify({
+                text: "Succeed Login",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#34D399",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
+                },
+            }).showToast();
         } catch (error) {
-            console.log(error);
-
             Toastify({
                 text: error.response.data.error,
                 duration: 3000,
@@ -26,57 +41,49 @@ export default function LoginPage({ base_url }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
                 },
-                onClick: function () { } // Callback after click
             }).showToast();
         }
     }
 
-    function emailOnChange(event) {
-        setEmail(event.target.value);
-    }
-
-    function passwordOnChange(event) {
-        setPassword(event.target.value);
-    }
-
     return (
         <>
-            <div className="relative flex flex-col justify-center h-[85dvh] overflow-hidden bg-base-100">
-                <div className="w-full p-6 m-auto rounded-lg shadow-md lg:max-w-lg bg-base-200">
-                    <h1 className="text-3xl font-semibold text-center text-accent-focus">
-                        Log In
-                    </h1>
-
-                    <form className="space-y-4" onSubmit={handleLogin}>
-                        <div>
-                            <label className="label">
-                                <span className="text-base label-text">Email</span>
+            <div className="min-h-screen flex items-center justify-center w-full">
+                <div className="px-8 py-6 w-1/3 bg-blue-400 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                    <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
+                    <form onSubmit={handleLogin}>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium ">
+                                Email Address
                             </label>
                             <input
-                                type="text"
-                                placeholder="Enter Email"
-                                className="w-full input input-bordered input-accent"
-                                onChange={emailOnChange}
-                                autoComplete='current-email'
+                                type="email"
+                                id="email"
+                                className="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                                placeholder="your@email.com"
+                                autoComplete="current-email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div>
-                            <label className="label">
-                                <span className="text-base label-text">Password</span>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium">
+                                Password
                             </label>
                             <input
                                 type="password"
-                                placeholder="Enter Password"
-                                className="w-full input input-bordered input-accent"
-                                onChange={passwordOnChange}
-                                autoComplete='current-password'
+                                id="password"
+                                className="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                                placeholder="Enter your password"
+                                autoComplete="current-password"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <div>
-                            <button className="btn btn-accent w-full mt-5">Log In</button>
-                        </div>
+                        <Button nameProp="Login" />
                     </form>
                 </div>
             </div>

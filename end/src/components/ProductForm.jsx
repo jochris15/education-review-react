@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
-
-
+import Button from '../components/Button'
 
 export default function ProductsForm({ base_url, product, handleSubmit, nameProp }) {
     const [name, setName] = useState("")
@@ -16,7 +15,7 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
         try {
             const { data } = await axios.get(`${base_url}/apis/branded-things/categories`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.token}`
+                    Authorization: `Bearer ${localStorage.access_token}`
                 }
             })
 
@@ -44,88 +43,92 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
 
     return (
         <>
-            <form onSubmit={(e) => handleSubmit(e, name, description, price, imgUrl, stock, categoryId)} >
-                <div className=" grid grid-cols-2 gap-4 mt-4" >
+            <form className="p-10 mt-10 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400" onSubmit={(e) => handleSubmit(e, name, description, price, imgUrl, stock, categoryId)}>
+                <h1 className="text-2xl font-bold text-center mb-4">Add New Product</h1>
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Name</span>
+                            <span className="font-bold">Name</span>
                         </label>
                         <input
-                            onChange={(e) => setName(e.target.value)}
                             type="text"
-                            placeholder="Name"
-                            className="w-full input input-bordered input-accent"
+                            placeholder="Enter Name"
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             value={name}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </div>
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Description</span>
+                            <span className="font-bold">Description</span>
                         </label>
                         <input
-                            onChange={(e) => setDescription(e.target.value)}
                             type="text"
                             placeholder="Enter Description"
-                            className="w-full input input-bordered input-accent"
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Price</span>
+                            <span className="font-bold">Price</span>
                         </label>
                         <input
-                            onChange={(e) => setPrice(e.target.value)}
                             type="number"
                             placeholder="Enter Price"
-                            className="w-full input input-bordered input-accent"
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Stock</span>
+                            <span className="font-bold">Stock</span>
                         </label>
                         <input
-                            onChange={(e) => setStock(e.target.value)}
                             type="number"
                             placeholder="Enter Stock"
-                            className="w-full input input-bordered input-accent"
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             value={stock}
+                            onChange={(e) => setStock(e.target.value)}
                         />
                     </div>
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Image (URL)</span>
+                            <span className="font-bold">Image (URL)</span>
                         </label>
                         <input
-                            onChange={(e) => setImgUrl(e.target.value)}
                             type="text"
-                            placeholder="Image URL"
-                            className="w-full input input-bordered input-accent"
+                            placeholder="Enter Image URL"
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             value={imgUrl}
+                            onChange={(e) => setImgUrl(e.target.value)}
                         />
                     </div>
                     <div>
                         <label className="label">
-                            <span className="text-base label-text">Category</span>
+                            <span className="font-bold">Category</span>
                         </label>
                         <select
-                            className="w-full input input-bordered input-accent"
-                            onChange={(e) => setCategoryId(e.target.value)}
+                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             name="category"
-                            id=""
                             value={categoryId}
+                            onChange={(e) => setCategoryId(e.target.value)}
                         >
-                            {categories.map(c => {
-                                return <option key={c.id} value={c.id}>{c.name}</option>
+                            <option value="" disabled>Select Category</option>
+                            {categories.map((c) => {
+                                return (
+                                    <option value={c.id} key={c.id}>{c.name}</option>
+                                )
                             })}
                         </select>
                     </div>
                 </div>
-                <div>
-                    <button type="submit" className="w-full btn btn-accent mt-10">{nameProp}</button>
+                <div className="mt-5">
+                    <Button nameProp={nameProp} />
                 </div>
             </form>
-        </>)
+        </>
+    )
 }

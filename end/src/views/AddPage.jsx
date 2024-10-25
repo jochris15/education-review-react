@@ -13,7 +13,7 @@ export default function AddPage({ base_url }) {
 
             const { data } = await axios.post(`${base_url}/apis/branded-things/products`, body, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.token}`
+                    Authorization: `Bearer ${localStorage.access_token}`
                 }
             })
             navigate("/")
