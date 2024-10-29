@@ -1,11 +1,10 @@
 import axios from 'axios'
 import Toastify from 'toastify-js'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import uploadLoading from './assets/loadingUpload.svg'
 import { Link } from 'react-router-dom';
 
 export default function Card({ product, base_url, fetchProducts }) {
-    const [file, setFile] = useState('')
     const [loading, setLoading] = useState(false)
 
     async function handleDelete() {
@@ -47,7 +46,7 @@ export default function Card({ product, base_url, fetchProducts }) {
         }
     }
 
-    async function handleUpload() {
+    async function handleUpload(file) {
         try {
             setLoading(true)
             const formData = new FormData();
@@ -92,10 +91,6 @@ export default function Card({ product, base_url, fetchProducts }) {
         }
     }
 
-    useEffect(() => {
-        if (file) handleUpload()
-    }, [file])
-
     return (
         <>
             <div className="flex flex-col flex-start items-center bg-yellow-400 border-2 border-black p-5 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full">
@@ -127,9 +122,9 @@ export default function Card({ product, base_url, fetchProducts }) {
                         <>
                             <label
                                 className="fa-solid fa-upload fa-2xl m-5"
-                                htmlFor="uploadFile"
+                                htmlFor={`upload${product.id}`}
                             />
-                            <input type="file" id="uploadFile" className="hidden" onChange={(e) => setFile(e.target.files[0])} />
+                            <input type="file" id={`upload${product.id}`} className="hidden" onChange={(e) => handleUpload(e.target.files[0])} />
                         </>
                     )}
                 </div>
