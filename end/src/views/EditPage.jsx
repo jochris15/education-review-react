@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
-import ProductForm from "../components/ProductForm";
-import axios from 'axios'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
+import ProductsForm from "../components/ProductsForm";
+import axios from "axios";
+import { baseUrl } from "../api/baseUrl";
 import Toastify from 'toastify-js'
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function EditPage({ base_url }) {
+export default function EditPage() {
     const [product, setProduct] = useState({})
     const { id } = useParams()
-    const navigate = useNavigate()
+    const navigate = useNavigate("")
 
-    async function handleSubmit(e, name, description, price, imgUrl, stock, categoryId) {
-        e.preventDefault()
+    async function fetchProduct() {
         try {
-            const body = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
+            const { data } = await axios.get(`${baseUrl}/apis/pub/branded-things/products/${id}`)
 
-            const { data } = await axios.put(`${base_url}/apis/branded-things/products/${id}`, body, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
-                }
-            })
-            navigate("/")
+            setProduct(data.data)
+        } catch (error) {
             Toastify({
-                text: `Succedd edit product`,
+                text: error.response.data.error,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -30,9 +25,41 @@ export default function EditPage({ base_url }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#008000",
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
                 },
-                onClick: function () { } // Callback after click
+            }).showToast();
+        }
+    }
+
+    async function handleSubmit(e, form) {
+        e.preventDefault()
+        try {
+            const { data } = await axios.put(`${baseUrl}/apis/branded-things/products/${id}`, form, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.access_token}`
+                }
+            })
+
+            navigate('/')
+            Toastify({
+                text: data.message,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#34D399",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
+                },
             }).showToast();
         } catch (error) {
             Toastify({
@@ -44,21 +71,13 @@ export default function EditPage({ base_url }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
                 },
-                onClick: function () { } // Callback after click
             }).showToast();
-
-        }
-    }
-
-    async function fetchProduct() {
-        try {
-            const { data } = await axios.get(`${base_url}/apis/pub/branded-things/products/${id}`)
-
-            setProduct(data.data)
-        } catch (error) {
-            console.log(error);
         }
     }
 
@@ -68,8 +87,7 @@ export default function EditPage({ base_url }) {
 
     return (
         <>
-            <ProductForm base_url={base_url} product={product} handleSubmit={handleSubmit}
-                nameProp="Edit Product" />
+            <ProductsForm product={product} handleSubmit={handleSubmit} propName="Edit Product" />
         </>
     )
 }

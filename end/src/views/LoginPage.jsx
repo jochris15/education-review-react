@@ -1,20 +1,45 @@
-import { useState } from 'react'
+import { useState } from "react"
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../api/baseUrl"
+import { useNavigate } from "react-router"
 import Toastify from 'toastify-js'
-import Button from '../components/Button'
+import { useEffect } from "react"
+import Button from "../components/Button"
 
-export default function LoginPage({ base_url }) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export default function LoginPage() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.access_token) {
+            Toastify({
+                text: "You already logged in",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
+                },
+            }).showToast();
+            navigate('/')
+        }
+    }, [navigate])
 
     async function handleLogin(e) {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${base_url}/apis/login`, { email, password })
-            localStorage.setItem("access_token", data.data.access_token);
-            navigate("/");
+            const { data } = await axios.post(`${baseUrl}/apis/login`, { email, password })
+
+            localStorage.setItem('access_token', data?.data?.access_token)
+            navigate('/')
             Toastify({
                 text: "Succeed Login",
                 duration: 3000,
@@ -58,9 +83,7 @@ export default function LoginPage({ base_url }) {
                     <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium ">
-                                Email Address
-                            </label>
+                            <label className="block text-sm font-medium ">Email Address</label>
                             <input
                                 type="email"
                                 id="email"
@@ -71,9 +94,7 @@ export default function LoginPage({ base_url }) {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium">
-                                Password
-                            </label>
+                            <label className="block text-sm font-medium">Password</label>
                             <input
                                 type="password"
                                 id="password"
@@ -87,6 +108,7 @@ export default function LoginPage({ base_url }) {
                     </form>
                 </div>
             </div>
+
         </>
     )
 }

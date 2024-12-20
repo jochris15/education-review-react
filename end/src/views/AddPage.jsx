@@ -1,24 +1,24 @@
-import ProductForm from "../components/ProductForm";
+import axios from "axios"
+import { baseUrl } from "../api/baseUrl"
 import Toastify from 'toastify-js'
-import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import { useNavigate } from "react-router";
+import ProductsForm from "../components/ProductsForm";
 
-export default function AddPage({ base_url }) {
+export default function AddPage() {
     const navigate = useNavigate()
 
-    async function handleSubmit(e, name, description, price, imgUrl, stock, categoryId) {
+    async function handleSubmit(e, form) {
         e.preventDefault()
         try {
-            const body = { name, description, price: +price, imgUrl, stock: +stock, categoryId: +categoryId }
-
-            const { data } = await axios.post(`${base_url}/apis/branded-things/products`, body, {
+            const { data } = await axios.post(`${baseUrl}/apis/branded-things/products`, form, {
                 headers: {
                     Authorization: `Bearer ${localStorage.access_token}`
                 }
             })
-            navigate("/")
+
+            navigate('/')
             Toastify({
-                text: `Succedd add new product ${data.data.name}`,
+                text: `Succeed add new data ${data.data.name}`,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -26,9 +26,12 @@ export default function AddPage({ base_url }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#008000",
+                    background: "#34D399",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
                 },
-                onClick: function () { } // Callback after click
             }).showToast();
         } catch (error) {
             Toastify({
@@ -40,18 +43,19 @@ export default function AddPage({ base_url }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
                 },
-                onClick: function () { } // Callback after click
             }).showToast();
-
         }
     }
 
     return (
         <>
-            <ProductForm base_url={base_url} handleSubmit={handleSubmit}
-                nameProp="Add Product" />
+            <ProductsForm handleSubmit={handleSubmit} propName="Add Product" />
         </>
     )
 }

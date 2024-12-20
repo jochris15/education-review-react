@@ -1,19 +1,37 @@
+import axios from "axios"
+import { baseUrl } from "../api/baseUrl"
 import { useEffect, useState } from "react";
-import axios from 'axios'
-import Button from '../components/Button'
+import Toastify from 'toastify-js'
+import Button from "./Button";
 
-export default function ProductsForm({ base_url, product, handleSubmit, nameProp }) {
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [price, setPrice] = useState(0)
-    const [imgUrl, setImgUrl] = useState("")
-    const [stock, setStock] = useState(0)
-    const [categoryId, setCategoryId] = useState("")
-    const [categories, setCategories] = useState([]);
+export default function ProductsForm({ product, handleSubmit, propName }) {
+    const [categories, setCategories] = useState([])
+    const [form, setForm] = useState({
+        name: "",
+        description: "",
+        price: 0,
+        stock: 0,
+        imgUrl: "",
+        categoryId: 0
+    })
+
+    function handleInput(fieldName, e) {
+        let value = e.target.value
+        if (fieldName === 'price' || fieldName === 'stock' || fieldName === 'categoryId') {
+            value = +e.target.value
+        }
+
+        setForm((oldValue) => {
+            return {
+                ...oldValue,
+                [fieldName]: value
+            }
+        })
+    }
 
     async function fetchCategories() {
         try {
-            const { data } = await axios.get(`${base_url}/apis/branded-things/categories`, {
+            const { data } = await axios.get(`${baseUrl}/apis/branded-things/categories`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.access_token}`
                 }
@@ -21,7 +39,23 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
 
             setCategories(data.data)
         } catch (error) {
-            console.log(error);
+            Toastify({
+                text: error.response.data.error,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
+                },
+            }).showToast();
+
         }
     }
 
@@ -31,20 +65,27 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
 
     useEffect(() => {
         if (product) {
-            setName(product.name)
-            setDescription(product.description)
-            setPrice(product.price)
-            setStock(product.stock)
-            setImgUrl(product.imgUrl)
-            setCategoryId(product.categoryId)
+            delete product?.authorId
+            delete product?.createdAt
+            delete product?.updatedAt
+            delete product?.id
+            delete product?.Category
+            delete product?.User
+
+            setForm((oldValue) => {
+                return {
+                    ...oldValue,
+                    ...product
+                }
+            })
         }
     }, [product])
 
-
     return (
         <>
-            <form className="p-10 mt-10 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400" onSubmit={(e) => handleSubmit(e, name, description, price, imgUrl, stock, categoryId)}>
-                <h1 className="text-2xl font-bold text-center mb-4">Add New Product</h1>
+            <form className="p-10 mt-5 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400"
+                onSubmit={(e) => handleSubmit(e, form)}>
+                <h1 className="text-2xl font-bold text-center mb-4">{propName}</h1>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="label">
@@ -54,8 +95,8 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                             type="text"
                             placeholder="Enter Name"
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => handleInput('name', e)}
+                            value={form?.name}
                         />
                     </div>
                     <div>
@@ -66,8 +107,8 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                             type="text"
                             placeholder="Enter Description"
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) => handleInput('description', e)}
+                            value={form?.description}
                         />
                     </div>
                     <div>
@@ -78,8 +119,8 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                             type="number"
                             placeholder="Enter Price"
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
+                            onChange={(e) => handleInput('price', e)}
+                            value={form?.price}
                         />
                     </div>
                     <div>
@@ -90,8 +131,8 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                             type="number"
                             placeholder="Enter Stock"
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            value={stock}
-                            onChange={(e) => setStock(e.target.value)}
+                            onChange={(e) => handleInput('stock', e)}
+                            value={form?.stock}
                         />
                     </div>
                     <div>
@@ -102,8 +143,8 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                             type="text"
                             placeholder="Enter Image URL"
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            value={imgUrl}
-                            onChange={(e) => setImgUrl(e.target.value)}
+                            onChange={(e) => handleInput('imgUrl', e)}
+                            value={form?.imgUrl}
                         />
                     </div>
                     <div>
@@ -113,10 +154,9 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                         <select
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             name="category"
-                            value={categoryId}
-                            onChange={(e) => setCategoryId(e.target.value)}
+                            onChange={(e) => handleInput('categoryId', e)}
+                            value={form?.categoryId}
                         >
-                            <option value="" disabled>Select Category</option>
                             {categories.map((c) => {
                                 return (
                                     <option value={c.id} key={c.id}>{c.name}</option>
@@ -126,7 +166,7 @@ export default function ProductsForm({ base_url, product, handleSubmit, nameProp
                     </div>
                 </div>
                 <div className="mt-5">
-                    <Button nameProp={nameProp} />
+                    <Button nameProp={propName} />
                 </div>
             </form>
         </>
