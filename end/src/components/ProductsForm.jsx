@@ -155,8 +155,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                             className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             name="category"
                             onChange={(e) => handleInput('categoryId', e)}
-                            value={form?.categoryId}
+                            value={form?.categoryId ? form?.categoryId : "select"}
                         >
+                            <option value="select" disabled>Select Category</option>
                             {categories.map((c) => {
                                 return (
                                     <option value={c.id} key={c.id}>{c.name}</option>

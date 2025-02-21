@@ -15,41 +15,221 @@
 
 <body>
     <div class="p-5">
+        <!-- Navbar -->
+        <nav
+            class="sticky top-0 z-10 p-3 bg-purple-400 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] flex justify-between items-center">
+            <div class="flex justify-center">
+                <a href="" class="text-2xl font-bold px-6 cursor-pointer">
+                    <span>Home</span>
+                </a>
+                <a href="" class="text-2xl font-bold px-6 cursor-pointer underline decoration-purple-200">
+                    <span>Add Product</span>
+                </a>
+            </div>
+            <a class="text-2xl font-bold px-6 cursor-pointer text-red-700">
+                <span>Logout</span>
+            </a>
+        </nav>
 
+        <!-- Login -->
+        <div class="min-h-screen flex items-center justify-center w-full">
+            <div
+                class="px-8 py-6 w-1/3 bg-blue-400 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                <h1 class="text-2xl font-bold text-center mb-4">Login</h1>
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium ">Email Address</label>
+                        <input type="email" id="email"
+                            class="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            placeholder="your@email.com" autoComplete="current-email" />
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">Password</label>
+                        <input type="password" id="password"
+                            class="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            placeholder="Enter your password" autoComplete="current-password" />
+                    </div>
+                    <button
+                        class="w-full mt-5 py-2 px-4 border-2 border-black rounded-lg text-sm font-medium text-white bg-gray-700 hover:bg-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">Login</button>
+                </form>
+            </div>
+        </div>
 
+        <!-- Home -->
+        <div class="mt-8">
+            <!-- Search -->
+            <form class="max-w-md mx-auto border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                <div class="relative flex items-center w-full h-12 rounded-lg bg-white overflow-hidden">
+                    <div class="grid place-items-center h-full w-12 text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="{2}"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input class="peer h-full w-full outline-none text-sm text-gray-800 pr-2" type="text" id="search"
+                        placeholder="Search something.." />
+                </div>
+            </form>
+
+            <!-- Loading -->
+            <div class="flex justify-center w-screen h-screen">
+                <img src="./loading.svg" class="w-1/4" />
+            </div>
+
+            <!-- Main Product -->
+            <div id="PAGE-HOME" class="min-h-screen flex items-center justify-center">
+                <main class="my-8 bg-white grid grid-cols-4 gap-5">
+                    <div
+                        class="flex flex-col flex-start items-center bg-yellow-400 border-2 border-black p-5 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full">
+                        <div>
+                            <img src="https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522884/hacktiv8/branded/cubic-kids-lemari-anak-lemari-terbuka-ponyo-dm-60-52ws98qepd.jpg"
+                                alt="product image"
+                                class="border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] cursor-pointer" />
+                        </div>
+                        <div class="flex flex-col h-full w-full">
+                            <b class="mt-5">
+                                Cubic KIDS Lemari Anak / Lemari Terbuka / PONYO DM 60
+                            </b>
+                            <hr class="border-black w-full" />
+                            <p>
+                                Deskripsi Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                                sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk....
+                            </p>
+                        </div>
+                        <hr class="border-black w-full" />
+                        <div class="flex justify-center mt-10 w-full">
+                            <a class="fa-solid fa-circle-info fa-2xl m-5 cursor-pointer"></a>
+                            <a class="fa-solid fa-trash fa-2xl m-5 cursor-pointer"></a>
+                            <a class="fa-solid fa-pen-to-square fa-2xl m-5 cursor-pointer"></a>
+                            <label class="fa-solid fa-upload fa-2xl m-5 cursor-pointer" />
+                            <input type="file" class="hidden" />
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
 
         <!-- Pagination -->
         <nav class="flex items-center justify-center gap-x-1">
             <button type="button"
                 class="min-h-[38px] min-w-[38px] flex justify-center items-center rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-purple-400 hover:border-2 hover:border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] py-2 px-3 text-sm disabled:bg-purple-400">
-                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m15 18-6-6 6-6"></path>
+                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24}
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"
+                    strokeLinejoin="round">
+                    <path d="m15 18-6-6 6-6" />
                 </svg>
                 <span>Prev</span>
             </button>
             <div class="flex items-center gap-x-1">
                 <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-purple-400 py-2 px-3 text-sm rounded-lg border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">1</button>
+                    class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-purple-400 py-2 px-3 text-sm rounded-lg border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                    1
+                </button>
                 <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-purple-400 hover:border-2 hover:border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] py-2 px-3 text-sm">2</button>
-                <button type="button"
-                    class="min-h-[38px] min-w-[38px] flex justify-center items-center rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-purple-400 hover:border-2 hover:border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] py-2 px-3 text-sm">3</button>
+                    class="min-h-[38px] min-w-[38px] flex justify-center items-center rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-purple-400 hover:border-2 hover:border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] py-2 px-3 text-sm">
+                    2
+                </button>
             </div>
             <button type="button"
                 class="min-h-[38px] min-w-[38px] flex justify-center items-center rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:bg-purple-400 hover:border-2 hover:border-black hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] py-2 px-3 text-sm disabled:bg-purple-400">
                 <span>Next</span>
-                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6"></path>
+                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width={24} height={24}
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"
+                    strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6" />
                 </svg>
             </button>
         </nav>
 
-    </div>
+        <!-- Detail -->
+        <div
+            class="flex flex-start bg-yellow-400 border-2 border-black p-5 rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full mt-10">
+            <div>
+                <img src="https://res.cloudinary.com/dpjqm8kkk/image/upload/v1723522884/hacktiv8/branded/cubic-kids-lemari-anak-lemari-terbuka-ponyo-dm-60-52ws98qepd.jpg"
+                    alt="product image"
+                    class="border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] h-full" />
+            </div>
+            <div class="flex mx-10 flex-col w-1/2 justify-between">
+                <b class="text-4xl mb-5">
+                    Cubic KIDS Lemari Anak / Lemari Terbuka / PONYO DM 60
+                </b>
+                <p class="h-full">
+                    Deskripsi Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk Deskripsi
+                    Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk Deskripsi
+                    Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk Deskripsi
+                    Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk Deskripsi
+                    Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk Deskripsi
+                    Produk\n\n**GRATIS ONGKIR JAWA-BALI** \n‣ Harap membaca deskripsi produk
+                    sampai selesai. \n‣ Chat kami terlebih dahulu untuk memastikan daerah Anda masuk
+                </p>
+                <div>
+                    <a to="/" class="fa-solid fa-arrow-left fa-2xl mb-5">Back</a>
+                </div>
+            </div>
+        </div>
 
+        <!-- AddPage -->
+        <form class="p-10 mt-5 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400">
+            <h1 class="text-2xl font-bold text-center mb-4">Add Product</h1>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Name</span>
+                    </label>
+                    <input type="text" placeholder="Enter Name"
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]" />
+                </div>
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Description</span>
+                    </label>
+                    <input type="text" placeholder="Enter Description"
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]" />
+                </div>
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Price</span>
+                    </label>
+                    <input type="number" placeholder="Enter Price"
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]" />
+                </div>
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Stock</span>
+                    </label>
+                    <input type="number" placeholder="Enter Stock"
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]" />
+                </div>
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Image (URL)</span>
+                    </label>
+                    <input type="text" placeholder="Enter Image URL"
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]" />
+                </div>
+                <div>
+                    <label class="label">
+                        <span class="font-bold">Category</span>
+                    </label>
+                    <select
+                        class="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        name="category">
+                        <option value="">Test</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-5">
+                <button
+                    class="w-full mt-5 py-2 px-4 border-2 border-black rounded-lg text-sm font-medium text-white bg-gray-700 hover:bg-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">Add</button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
