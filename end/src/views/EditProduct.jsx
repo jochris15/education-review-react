@@ -1,50 +1,25 @@
-import { useNavigate, useParams } from "react-router";
-import ProductsForm from "../components/ProductsForm";
-import axios from "axios";
-import { baseUrl } from "../api/baseUrl";
+import ProductForm from "../components/ProductForm";
 import Toastify from 'toastify-js'
+import axios from 'axios'
+import baseUrl from "../constant/url"
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 
-export default function EditPage() {
-    const [product, setProduct] = useState({})
+export default function EditProduct() {
+    const navigate = useNavigate()
     const { id } = useParams()
-    const navigate = useNavigate("")
-
-    async function fetchProduct() {
-        try {
-            const { data } = await axios.get(`${baseUrl}/apis/pub/branded-things/products/${id}`)
-
-            setProduct(data.data)
-        } catch (error) {
-            Toastify({
-                text: error.response.data.error,
-                duration: 3000,
-                newWindow: true,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#F87171",
-                    color: "black",
-                    border: "solid #000000",
-                    borderRadius: "8px",
-                    boxShadow: "2px 2px black"
-                },
-            }).showToast();
-        }
-    }
+    const [product, setProduct] = useState({})
 
     async function handleSubmit(e, form) {
         e.preventDefault()
         try {
-            const { data } = await axios.put(`${baseUrl}/apis/branded-things/products/${id}`, form, {
+            const { data } = await axios.put(`${baseUrl}/apis/products/products/${id}`, form, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
+                    Authorization: `Bearer ${localStorage.token}`
                 }
             })
 
-            navigate('/')
+            navigate("/")
             Toastify({
                 text: data.message,
                 duration: 3000,
@@ -62,8 +37,35 @@ export default function EditPage() {
                 },
             }).showToast();
         } catch (error) {
+            console.log(error);
+
             Toastify({
-                text: error.response.data.error,
+                text: error.response.data.message,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                style: {
+                    background: "#F87171",
+                    color: "black",
+                    border: "solid #000000",
+                    borderRadius: "8px",
+                    boxShadow: "2px 2px black"
+                },
+            }).showToast();
+        }
+    }
+
+    async function fetchProduct() {
+        try {
+            const { data } = await axios.get(`${baseUrl}/apis/pub/products/products/${id}`)
+
+            setProduct(data.data)
+        } catch (error) {
+            Toastify({
+                text: error.response.data.message,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -84,10 +86,9 @@ export default function EditPage() {
     useEffect(() => {
         fetchProduct()
     }, [])
-
     return (
         <>
-            <ProductsForm product={product} handleSubmit={handleSubmit} propName="Edit Product" />
+            <ProductForm nameProp={"Edit Product"} handleSubmit={handleSubmit} product={product} />
         </>
     )
 }

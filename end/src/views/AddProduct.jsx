@@ -1,24 +1,24 @@
-import axios from "axios"
-import { baseUrl } from "../api/baseUrl"
+import ProductForm from "../components/ProductForm";
 import Toastify from 'toastify-js'
+import axios from 'axios'
+import baseUrl from "../constant/url"
 import { useNavigate } from "react-router";
-import ProductsForm from "../components/ProductsForm";
 
-export default function AddPage() {
+export default function AddProduct() {
     const navigate = useNavigate()
 
     async function handleSubmit(e, form) {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`${baseUrl}/apis/branded-things/products`, form, {
+            const { data } = await axios.post(`${baseUrl}/apis/products/products`, form, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
+                    Authorization: `Bearer ${localStorage.token}`
                 }
             })
 
-            navigate('/')
+            navigate("/")
             Toastify({
-                text: `Succeed add new data ${data.data.name}`,
+                text: data.message,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -35,7 +35,7 @@ export default function AddPage() {
             }).showToast();
         } catch (error) {
             Toastify({
-                text: error.response.data.error,
+                text: error.response.data.message,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -52,10 +52,9 @@ export default function AddPage() {
             }).showToast();
         }
     }
-
     return (
         <>
-            <ProductsForm handleSubmit={handleSubmit} propName="Add Product" />
+            <ProductForm nameProp={"Add Product"} handleSubmit={handleSubmit} />
         </>
     )
 }

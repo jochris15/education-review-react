@@ -1,28 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import LoginPage from "./views/LoginPage";
 import BaseLayout from "./views/BaseLayout";
-import HomePage from "./views/HomePage";
-import AddPage from "./views/AddPage";
-import DetailPage from "./views/DetailPage";
-import EditPage from "./views/EditPage";
+import Login from "./views/Login";
+import Home from "./views/Home";
+import AddProduct from "./views/AddProduct";
+import Detail from "./views/Detail";
+import EditProduct from "./views/EditProduct";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route element={<BaseLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/detail/:id" element={<DetailPage />} />
-            <Route path="/edit/:id" element={<EditPage />} />
-            <Route path="/add" element={<AddPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<BaseLayout />} >
+            <Route path="/" element={<Home />} />
+            <Route path="/add" element={<AddProduct />} />
+            <Route path="/detail/:id" element={<Detail />} />
+            <Route path="/edit/:id" element={<EditProduct />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter>,
     </>
   )
 }
-
 
 export default App

@@ -6,7 +6,6 @@ npm create vite@latest
 cd my-project
 
 npm install
-npm install react-router-dom
 npm run dev
 ```
 <br>

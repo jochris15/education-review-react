@@ -1,45 +1,21 @@
 import { useState } from "react"
-import axios from 'axios'
-import { baseUrl } from "../api/baseUrl"
-import { useNavigate } from "react-router"
 import Toastify from 'toastify-js'
-import { useEffect } from "react"
+import axios from 'axios'
+import baseUrl from "../constant/url"
+import { useNavigate } from "react-router"
 import Button from "../components/Button"
 
-export default function LoginPage() {
+export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (localStorage.access_token) {
-            Toastify({
-                text: "You already logged in",
-                duration: 3000,
-                newWindow: true,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                style: {
-                    background: "#F87171",
-                    color: "black",
-                    border: "solid #000000",
-                    borderRadius: "8px",
-                    boxShadow: "2px 2px black"
-                },
-            }).showToast();
-            navigate('/')
-        }
-    }, [navigate])
-
     async function handleLogin(e) {
-        e.preventDefault()
         try {
-            const { data } = await axios.post(`${baseUrl}/apis/login`, { email, password })
+            e.preventDefault()
+            const { data } = await axios.post(`${baseUrl}/apis/auth/login`, { email, password })
 
-            localStorage.setItem('access_token', data?.data?.access_token)
-            navigate('/')
+            localStorage.setItem("token", data.data.token)
             Toastify({
                 text: "Succeed Login",
                 duration: 3000,
@@ -56,9 +32,10 @@ export default function LoginPage() {
                     boxShadow: "2px 2px black"
                 },
             }).showToast();
+            navigate("/")
         } catch (error) {
             Toastify({
-                text: error.response.data.error,
+                text: error.response.data.message,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -76,6 +53,7 @@ export default function LoginPage() {
         }
     }
 
+
     return (
         <>
             <div className="min-h-screen flex items-center justify-center w-full">
@@ -83,11 +61,11 @@ export default function LoginPage() {
                     <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium ">Email Address</label>
+                            <label className="block text-sm font-medium ">Email Address </label>
                             <input
                                 type="email"
                                 id="email"
-                                className="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                                className="bg-white rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                                 placeholder="your@email.com"
                                 autoComplete="current-email"
                                 onChange={(e) => setEmail(e.target.value)}
@@ -98,17 +76,18 @@ export default function LoginPage() {
                             <input
                                 type="password"
                                 id="password"
-                                className="rounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                                className="bg-white ounded-lg w-full px-3 py-2 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                                 placeholder="Enter your password"
                                 autoComplete="current-password"
                                 onChange={(e) => setPassword(e.target.value)}
+
                             />
                         </div>
-                        <Button nameProp="Login" />
+                        <Button nameProp={"Login"} />
                     </form>
                 </div>
             </div>
-
         </>
     )
 }
+

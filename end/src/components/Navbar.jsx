@@ -1,11 +1,11 @@
-import { NavLink, useNavigate } from "react-router"
+import { NavLink, useNavigate } from "react-router";
 
 export default function Navbar() {
     const navigate = useNavigate()
 
     function handleLogout() {
         localStorage.clear()
-        navigate('/login')
+        navigate("/login")
     }
 
     return (
@@ -17,9 +17,11 @@ export default function Navbar() {
                     }>
                         <span>Home</span>
                     </NavLink>
-                    <NavLink to="/add" className={({ isActive }) =>
-                        isActive ? "text-2xl font-bold px-6 cursor-pointer underline decoration-purple-200" : "text-2xl font-bold px-6 cursor-pointer"
-                    }>
+                    <NavLink
+                        to="/add"
+                        className={({ isActive }) =>
+                            isActive ? "text-2xl font-bold px-6 cursor-pointer underline decoration-purple-200" : "text-2xl font-bold px-6 cursor-pointer"
+                        }>
                         <span>Add Product</span>
                     </NavLink>
                 </div>

@@ -1,10 +1,10 @@
-import axios from "axios"
-import { baseUrl } from "../api/baseUrl"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import Toastify from 'toastify-js'
-import Button from "./Button";
+import axios from 'axios'
+import baseUrl from "../constant/url"
+import Button from "./Button"
 
-export default function ProductsForm({ product, handleSubmit, propName }) {
+export default function ProductForm({ nameProp, handleSubmit, product }) {
     const [categories, setCategories] = useState([])
     const [form, setForm] = useState({
         name: "",
@@ -15,32 +15,49 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
         categoryId: 0
     })
 
-    function handleInput(fieldName, e) {
-        let value = e.target.value
-        if (fieldName === 'price' || fieldName === 'stock' || fieldName === 'categoryId') {
-            value = +e.target.value
+    useEffect(() => {
+        if (product) {
+            setForm({
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                stock: product.stock,
+                imgUrl: product.imgUrl,
+                categoryId: product.categoryId
+            })
         }
+    }, [product])
 
-        setForm((oldValue) => {
-            return {
-                ...oldValue,
-                [fieldName]: value
-            }
-        })
+    function handleForm(e, fieldName) {
+        if (fieldName === 'price' || fieldName === 'stock' || fieldName === 'categoryId') {
+            setForm((oldValue) => {
+                return {
+                    ...oldValue,
+                    [fieldName]: +e.target.value
+                }
+            })
+        } else {
+            setForm((oldValue) => {
+                return {
+                    ...oldValue,
+                    [fieldName]: e.target.value
+                }
+            })
+        }
     }
 
     async function fetchCategories() {
         try {
-            const { data } = await axios.get(`${baseUrl}/apis/branded-things/categories`, {
+            const { data } = await axios.get(`${baseUrl}/apis/products/categories`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.access_token}`
+                    Authorization: `Bearer ${localStorage.token}`
                 }
             })
 
             setCategories(data.data)
         } catch (error) {
             Toastify({
-                text: error.response.data.error,
+                text: error.response.data.message,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -55,37 +72,16 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                     boxShadow: "2px 2px black"
                 },
             }).showToast();
-
         }
     }
 
     useEffect(() => {
         fetchCategories()
     }, [])
-
-    useEffect(() => {
-        if (product) {
-            delete product?.authorId
-            delete product?.createdAt
-            delete product?.updatedAt
-            delete product?.id
-            delete product?.Category
-            delete product?.User
-
-            setForm((oldValue) => {
-                return {
-                    ...oldValue,
-                    ...product
-                }
-            })
-        }
-    }, [product])
-
     return (
         <>
-            <form className="p-10 mt-5 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400"
-                onSubmit={(e) => handleSubmit(e, form)}>
-                <h1 className="text-2xl font-bold text-center mb-4">{propName}</h1>
+            <form className="p-10 mt-5 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-red-400" onSubmit={(e) => handleSubmit(e, form)}>
+                <h1 className="text-2xl font-bold text-center mb-4">{nameProp}</h1>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="label">
@@ -94,9 +90,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                         <input
                             type="text"
                             placeholder="Enter Name"
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            onChange={(e) => handleInput('name', e)}
-                            value={form?.name}
+                            className="bg-white w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            onChange={(e) => handleForm(e, "name")}
+                            value={form.name}
                         />
                     </div>
                     <div>
@@ -106,9 +102,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                         <input
                             type="text"
                             placeholder="Enter Description"
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            onChange={(e) => handleInput('description', e)}
-                            value={form?.description}
+                            className="bg-white w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            onChange={(e) => handleForm(e, "description")}
+                            value={form.description}
                         />
                     </div>
                     <div>
@@ -118,9 +114,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                         <input
                             type="number"
                             placeholder="Enter Price"
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            onChange={(e) => handleInput('price', e)}
-                            value={form?.price}
+                            className="bg-white w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            onChange={(e) => handleForm(e, "price")}
+                            value={form.price}
                         />
                     </div>
                     <div>
@@ -130,9 +126,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                         <input
                             type="number"
                             placeholder="Enter Stock"
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            onChange={(e) => handleInput('stock', e)}
-                            value={form?.stock}
+                            className="bg-white g w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            onChange={(e) => handleForm(e, "stock")}
+                            value={form.stock}
                         />
                     </div>
                     <div>
@@ -142,9 +138,9 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                         <input
                             type="text"
                             placeholder="Enter Image URL"
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                            onChange={(e) => handleInput('imgUrl', e)}
-                            value={form?.imgUrl}
+                            className="bg-white w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            onChange={(e) => handleForm(e, "imgUrl")}
+                            value={form.imgUrl}
                         />
                     </div>
                     <div>
@@ -152,12 +148,11 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                             <span className="font-bold">Category</span>
                         </label>
                         <select
-                            className="rounded-lg w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                            className="bg-white w-full px-3 py-2 border-2 border-black rounded-lg shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                             name="category"
-                            onChange={(e) => handleInput('categoryId', e)}
-                            value={form?.categoryId ? form?.categoryId : "select"}
+                            onChange={(e) => handleForm(e, "categoryId")}
+                            value={form.categoryId}
                         >
-                            <option value="select" disabled>Select Category</option>
                             {categories.map((c) => {
                                 return (
                                     <option value={c.id} key={c.id}>{c.name}</option>
@@ -167,7 +162,7 @@ export default function ProductsForm({ product, handleSubmit, propName }) {
                     </div>
                 </div>
                 <div className="mt-5">
-                    <Button nameProp={propName} />
+                    <Button nameProp={nameProp} />
                 </div>
             </form>
         </>
