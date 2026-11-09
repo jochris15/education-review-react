@@ -2,7 +2,7 @@ import { useState } from "react"
 import Toastify from 'toastify-js'
 import axios from 'axios'
 import baseUrl from "../constant/url"
-import { useNavigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import Button from "../components/Button"
 
 export default function Login() {
@@ -53,6 +53,25 @@ export default function Login() {
         }
     }
 
+    if (localStorage.getItem("token")) {
+        Toastify({
+            text: "You already logged in",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#F87171",
+                color: "black",
+                border: "solid #000000",
+                borderRadius: "8px",
+                boxShadow: "2px 2px black"
+            },
+        }).showToast();
+        return <Navigate to="/" />
+    }
 
     return (
         <>
