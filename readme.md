@@ -26,3 +26,4 @@ npm run dev
 - Patch Image
 - Add Movie (with reusable form)
 - Edit Movie (with reusable form)
+- Reusable Button
