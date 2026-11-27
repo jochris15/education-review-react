@@ -40,7 +40,7 @@ export default function EditMovie() {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#008000",
+                    background: "#4ade80",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -58,7 +58,7 @@ export default function EditMovie() {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#f87171",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -66,7 +66,7 @@ export default function EditMovie() {
                     fontWeight: 500
                 },
             }).showToast();
-        } y
+        }
     }
 
     useEffect(() => {

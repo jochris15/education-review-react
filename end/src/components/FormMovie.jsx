@@ -44,7 +44,7 @@ export default function FormMovie({ formName, handleSubmit, movie }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#f87171",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",

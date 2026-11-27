@@ -27,7 +27,7 @@ export default function Card({ movie, idx, fetchMovies }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#008000",
+                    background: "#4ade80",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -45,7 +45,7 @@ export default function Card({ movie, idx, fetchMovies }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#f87171",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -72,7 +72,7 @@ export default function Card({ movie, idx, fetchMovies }) {
             fetchMovies()
 
             Toastify({
-                text: "Succeed upload new image",
+                text: "Succeed update image",
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -80,7 +80,7 @@ export default function Card({ movie, idx, fetchMovies }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#008000",
+                    background: "#4ade80",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -98,7 +98,7 @@ export default function Card({ movie, idx, fetchMovies }) {
                 position: "right", // `left`, `center` or `right`
                 stopOnFocus: true, // Prevents dismissing of toast on hover
                 style: {
-                    background: "#FF0000",
+                    background: "#f87171",
                     border: "medium solid #000000",
                     borderRadius: "8px",
                     boxShadow: "2px 2px 0px rgba(0,0,0,1)",
@@ -107,7 +107,7 @@ export default function Card({ movie, idx, fetchMovies }) {
                 },
             }).showToast();
         } finally {
-            setLoadingButton(false)
+            // setLoadingButton(false)
         }
     }
 
@@ -126,23 +126,23 @@ export default function Card({ movie, idx, fetchMovies }) {
                     </p>
                 </div>
                 <hr className="border-black w-full" />
-                <div className="flex justify-between w-full my-5">
+                <div className="flex items-center justify-between w-full my-5">
                     <Link to={`/detail/${movie.id}`} className="fa-solid fa-circle-info fa-2xl cursor-pointer" />
                     <a onClick={handleDelete} className="fa-solid fa-trash fa-2xl cursor-pointer" />
                     <Link to={`/edit/${movie.id}`} className="fa-solid fa-pen-to-square fa-2xl cursor-pointer" />
                     {loadingButton ? (
-                        <div className="w-1/5 bg-red-500">
-                            <img src={loadingButtonGIF} />
+                        <div className="flex items-center justify-center w-10 h-10">
+                            <img src={loadingButtonGIF} alt="loading" className="w-full h-full object-cover block" />
                         </div>
                     ) : (
-                        <>
+                        <div className="flex items-center justify-center w-10 h-10">
                             <label className="fa-solid fa-upload fa-2xl cursor-pointer">
                                 <input type="file" className="hidden" onChange={handleUpload} />
                             </label>
-                        </>
+                        </div>
                     )}
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     )
 }
