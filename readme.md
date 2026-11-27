@@ -18,10 +18,11 @@ npm run dev
 ## Features
 - Login
 - Logout
-- Fetch Products @ HomePage
-- Add Product
-- Fetch Detail Product @ DetailPage
-- Delete Product
-- Edit Product
-- Patch Image 
-- Pagination
+- Fetch Movies @Home
+- Search + Pagination
+- Add Movie
+- Fetch Detail Movies @Detail
+- Delete Movie
+- Patch Image
+- Add Movie (with reusable form)
+- Edit Movie (with reusable form)
